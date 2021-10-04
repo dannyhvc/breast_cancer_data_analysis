@@ -16,8 +16,10 @@ public class App
         // setting streamed data into a usable list.
         List<Integer[]> valued_csvdata = csvIn.Data.stream().map((String[] elem) -> {
             Integer[] val = new Integer[elem.length];
+            // remove data breakers
             for (int i = 0; i < val.length; i++)
                 val[i] = (elem[i].equals("?")) ? Integer.valueOf(0) : Integer.parseInt(elem[i]);
+
             return val;
         }).collect(Collectors.toList());
 
@@ -32,6 +34,8 @@ public class App
         int amount_right = 0;
         for (int i = 0; i < diagnosis_arr.length; i++) {
             Integer[] temp = valued_csvdata.get(i);
+
+            // check expected vs actual
             if (diagnosis_arr[i] && temp[temp.length - 1] == 4) {
                 ++amount_right;
             }
@@ -41,9 +45,9 @@ public class App
         }
 
         // how right is the model?
-        float percent_corret = ((float)amount_right / valued_csvdata.size()) * 100;
+        float percent_correct = ((float)amount_right / valued_csvdata.size()) * 100;
         System.out.println(
-            "The model has correctly categorized " + percent_corret + "% of " + valued_csvdata.size() + " rows"
+            "The model has correctly categorized " + percent_correct + "% of " + valued_csvdata.size() + " rows"
         );
 
     }
